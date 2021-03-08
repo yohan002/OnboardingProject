@@ -62,13 +62,14 @@ public class MainActivity extends AppCompatActivity {
 //                        Log.v("Tag", "Title" + movie.getTitle());
 //                        Log.v("Tag", "Overview" + movie.getOverview());
                         String title = movie.getTitle();
-                        String poster = Credentials.IMAGE_URL + movie.getPoster_path();
+                        String poster = Credentials.IMAGE_URL+movie.getPoster_path();
                         String release_date = movie.getRelease_date();
                         int movie_id = movie.getMovie_id();
                         Double vote_average = movie.getVote_average();
                         String overview = movie.getOverview();
+                        //Log.v("Tag", "Overview" + overview );
                         int runtime = movie.getRuntime();
-//                        Log.v("Tag", "POster path" + poster);
+
                         arrMovie.add(new MovieModel(title,poster,release_date,movie_id,vote_average,overview,runtime));
                     }
                     mAdapter = new Adapter(arrMovie, MainActivity.this);

@@ -1,6 +1,8 @@
 package com.example.movie;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,9 +51,22 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         MovieModel movie = arrMovie.get(position);
 
-        final String poster_path = movie.getPoster_path();
-
+        String poster_path = movie.getPoster_path();
         Glide.with(mCtx).load(poster_path).centerInside().into(holder.iv_movie);
+
+        holder.cv_movie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent detailIntent = new Intent(mCtx,MovieDetailActivity.class);
+                detailIntent.putExtra("title_movieDetail",movie.getTitle());
+                detailIntent.putExtra("posterpath_movieDetail",movie.getPoster_path());
+                detailIntent.putExtra("releasedate_movieDetail",movie.getRelease_date());
+                detailIntent.putExtra("voteaverage_movieDetail",movie.getVote_average());
+                detailIntent.putExtra("overview_movieDetail",movie.getOverview());
+                detailIntent.putExtra("runtime_movieDetail",movie.getRuntime());
+                mCtx.startActivity(detailIntent);
+            }
+        });
     }
 
     @Override
