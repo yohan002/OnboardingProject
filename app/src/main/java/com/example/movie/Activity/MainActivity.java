@@ -1,23 +1,27 @@
-package com.example.movie;
+package com.example.movie.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.Movie;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
+import com.example.movie.Adapter.Adapter;
+import com.example.movie.Adapter.AdapterFavorite;
+import com.example.movie.Database.Database;
+import com.example.movie.Utils.Credentials;
+import com.example.movie.Utils.MovieApi;
+import com.example.movie.Model.MovieModel;
+import com.example.movie.Response.MovieSearchResponse;
+import com.example.movie.R;
+import com.example.movie.Request.Servicey;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvMovie;
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager layoutManager;
+    Database db;
     int flag = 0;
 
      @Override
@@ -72,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.item3:
                 Toast.makeText(this,"Favorite Movie",Toast.LENGTH_SHORT).show();
                 arrMovie.clear();
-
+                FavoriteAdapter();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -104,9 +109,10 @@ public class MainActivity extends AppCompatActivity {
                         String title = movie.getTitle();
                         String poster = Credentials.IMAGE_URL+movie.getPoster_path();
                         String release_date = movie.getRelease_date();
-                        int movie_id = movie.getMovie_id();
+                        int movie_id = movie.getId();
                         Double vote_average = movie.getVote_average();
                         String overview = movie.getOverview();
+                        Log.v("Tag", "ID" + movie.getId());
                         arrMovie.add(new MovieModel(title,poster,release_date,movie_id,vote_average,overview));
                     }
                     mAdapter = new Adapter(arrMovie, MainActivity.this);
@@ -123,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
+    void FavoriteAdapter(){
+        db = new Database(this);
+        mAdapter = new AdapterFavorite(MainActivity.this,db.getAllData());
+        rvMovie.setAdapter(mAdapter);
+    }
 }

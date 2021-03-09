@@ -1,4 +1,4 @@
-package com.example.movie;
+package com.example.movie.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,20 +13,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.example.movie.Database.Database;
+import com.example.movie.R;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
     ImageView iv_movie;
     TextView tv_title,tv_release_date,tv_rating,tv_description;
-//    TextView tv_genre,tv_duration;
     Button btn_favorite;
 
     int  flag = 0;
-
     Database db;
 
     @Override
@@ -38,9 +34,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         iv_movie = findViewById(R.id.iv_movie);
         tv_title = findViewById(R.id.tv_title);
-        //tv_genre = findViewById(R.id.tv_genre);
         tv_release_date = findViewById(R.id.tv_release_date);
-        //tv_duration = findViewById(R.id.tv_duration);
         tv_rating = findViewById(R.id.tv_rating);
         tv_description = findViewById(R.id.tv_description);
         btn_favorite = findViewById(R.id.btn_favorite);
@@ -64,21 +58,19 @@ public class MovieDetailActivity extends AppCompatActivity {
         final String title = intent.getStringExtra("title_movieDetail");
         final String release_date = intent.getStringExtra("releasedate_movieDetail");
         final String overview = intent.getStringExtra("overview_movieDetail");
-        //final int duration = intent.getIntExtra("runtime_movieDetail",0);
         final Double rating = intent.getDoubleExtra("voteaverage_movieDetail",0);
         final int movieId = intent.getIntExtra("movieId_movieDetail",0);
-        Log.v("Tag", "Overview" + overview );
+        //Log.v("Tag", "ID" + movieId );
 
         Glide.with(this).load(posterPath).centerInside().into(iv_movie);
         tv_title.setText(title);
-//        tv_genre.setText();
         tv_release_date.setText(release_date);
-       //tv_duration.setText(duration + " min");
         tv_rating.setText(rating + "/10");
         tv_description.setText(overview);
 
         if(flag == 1){
             String Id = String.valueOf(movieId);
+            Log.v("Tag", "Id" + movieId );
             String Rating = String.valueOf(rating);
 
             ContentValues contentValues = new ContentValues();
@@ -96,8 +88,6 @@ public class MovieDetailActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }
-
-
     }
 
 }

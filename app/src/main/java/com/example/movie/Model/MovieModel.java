@@ -1,4 +1,4 @@
-package com.example.movie;
+package com.example.movie.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,18 +8,18 @@ public class MovieModel implements Parcelable {
     private String title;
     private String poster_path;
     private String release_date;
-    private int movie_id;
+    private int id;
     private Double vote_average;
     private String overview;
 
     public MovieModel(String title, String poster_path,
-                      String release_date, int movie_id,
+                      String release_date, int id,
                       Double vote_average, String overview
                       ) {
         this.title = title;
         this.poster_path = poster_path;
         this.release_date = release_date;
-        this.movie_id = movie_id;
+        this.id = id;
         this.vote_average = vote_average;
         this.overview = overview;
     }
@@ -28,7 +28,7 @@ public class MovieModel implements Parcelable {
         title = in.readString();
         poster_path = in.readString();
         release_date = in.readString();
-        movie_id = in.readInt();
+        id = in.readInt();
         if (in.readByte() == 0) {
             vote_average = null;
         } else {
@@ -73,12 +73,12 @@ public class MovieModel implements Parcelable {
         this.release_date = release_date;
     }
 
-    public int getMovie_id() {
-        return movie_id;
+    public int getId() {
+        return id;
     }
 
-    public void setMovie_id(int movie_id) {
-        this.movie_id = movie_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Double getVote_average() {
@@ -107,7 +107,7 @@ public class MovieModel implements Parcelable {
         parcel.writeString(title);
         parcel.writeString(poster_path);
         parcel.writeString(release_date);
-        parcel.writeInt(movie_id);
+        parcel.writeInt(id);
         if (vote_average == null) {
             parcel.writeByte((byte) 0);
         } else {

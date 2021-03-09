@@ -1,4 +1,7 @@
-package com.example.movie;
+package com.example.movie.Request;
+
+import com.example.movie.Utils.Credentials;
+import com.example.movie.Utils.MovieApi;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

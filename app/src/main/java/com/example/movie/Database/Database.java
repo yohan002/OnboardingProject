@@ -1,4 +1,4 @@
-package com.example.movie;
+package com.example.movie.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,13 +13,13 @@ public class Database extends SQLiteOpenHelper {
     Context context;
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "Movie.db";
-    private static final String TABLE_NAME = "movie";
-    private static final String MOVIE_ID = "movie_id";
-    private static final String MOVIE_IMAGE = "movie_image";
-    private static final String MOVIE_TITLE = "movie_title";
-    private static final String MOVIE_RELESASEDATE = "movie_releasedate";
-    private static final String MOVIE_RATING = "movie_rating";
-    private static final String MOVIE_OVERVIEW = "movie_overview";
+    public static final String TABLE_NAME = "movie";
+    public static final String MOVIE_ID = "movie_id";
+    public static final String MOVIE_IMAGE = "movie_image";
+    public static final String MOVIE_TITLE = "movie_title";
+    public static final String MOVIE_RELESASEDATE = "movie_releasedate";
+    public static final String MOVIE_RATING = "movie_rating";
+    public static final String MOVIE_OVERVIEW = "movie_overview";
 
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

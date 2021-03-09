@@ -1,41 +1,27 @@
-package com.example.movie;
+package com.example.movie.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.movie.Activity.MovieDetailActivity;
+import com.example.movie.Model.MovieModel;
+import com.example.movie.R;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
     private ArrayList<MovieModel> arrMovie;
     private Context mCtx;
-    private OnItemClickListener mListener;
-
-    public interface OnItemClickListener{
-        void onItemClick(int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener){
-        mListener = listener;
-    }
 
     public Adapter(ArrayList<MovieModel> arrMovie, Context mCtx) {
         this.arrMovie = arrMovie;
@@ -62,23 +48,18 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
         holder.cv_movie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 Intent detailIntent = new Intent(mCtx,MovieDetailActivity.class);
                 detailIntent.putExtra("title_movieDetail",movie.getTitle());
                 detailIntent.putExtra("posterpath_movieDetail",movie.getPoster_path());
                 detailIntent.putExtra("releasedate_movieDetail",movie.getRelease_date());
                 detailIntent.putExtra("voteaverage_movieDetail",movie.getVote_average());
                 detailIntent.putExtra("overview_movieDetail",movie.getOverview());
-                detailIntent.putExtra("movieId_movieDetail",movie.getMovie_id());
+                detailIntent.putExtra("movieId_movieDetail",movie.getId());
                 //detailIntent.putExtra("runtime_movieDetail",movie.getRuntime());
                 mCtx.startActivity(detailIntent);
             }
         });
-
-
     }
-
 
     @Override
     public int getItemCount() {
