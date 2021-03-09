@@ -17,6 +17,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
@@ -57,17 +62,23 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
         holder.cv_movie.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 Intent detailIntent = new Intent(mCtx,MovieDetailActivity.class);
                 detailIntent.putExtra("title_movieDetail",movie.getTitle());
                 detailIntent.putExtra("posterpath_movieDetail",movie.getPoster_path());
                 detailIntent.putExtra("releasedate_movieDetail",movie.getRelease_date());
                 detailIntent.putExtra("voteaverage_movieDetail",movie.getVote_average());
                 detailIntent.putExtra("overview_movieDetail",movie.getOverview());
-                detailIntent.putExtra("runtime_movieDetail",movie.getRuntime());
+                detailIntent.putExtra("movieId_movieDetail",movie.getMovie_id());
+                //detailIntent.putExtra("runtime_movieDetail",movie.getRuntime());
                 mCtx.startActivity(detailIntent);
             }
         });
+
+
     }
+
 
     @Override
     public int getItemCount() {

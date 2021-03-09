@@ -1,15 +1,21 @@
 package com.example.movie;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Movie;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvMovie;
     RecyclerView.Adapter mAdapter;
     RecyclerView.LayoutManager layoutManager;
-
+    int flag = 0;
 
      @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,18 +43,52 @@ public class MainActivity extends AppCompatActivity {
         rvMovie.setLayoutManager(new GridLayoutManager(this,2));
 
         arrMovie = new ArrayList<>();
+
         GetRetrofitResponse();
+    }
 
-//        layoutManager = new LinearLayoutManager(this);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_menu,menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item1:
+                flag = 0;
+                arrMovie.clear();
+                GetRetrofitResponse();
+                Toast.makeText(this,"Popular Movie",Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item2:
+                flag = 1;
+                arrMovie.clear();
+                GetRetrofitResponse();
+                Toast.makeText(this,"Top Rated Movie",Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.item3:
+                Toast.makeText(this,"Favorite Movie",Toast.LENGTH_SHORT).show();
+                arrMovie.clear();
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void GetRetrofitResponse() {
         MovieApi movieApi = Servicey.getMovieApi();
-
-        Call<MovieSearchResponse> responseCall = movieApi
-                .popularMovie(Credentials.API_KEY);
-
+        Call<MovieSearchResponse> responseCall = null;
+                
+        if (flag == 0){
+            responseCall = movieApi.popularMovie(Credentials.API_KEY);
+        }else if(flag == 1){
+            responseCall = movieApi.topratedMovie(Credentials.API_KEY);
+        }
+        
         responseCall.enqueue(new Callback<MovieSearchResponse>() {
             @Override
             public void onResponse(Call<MovieSearchResponse> call, Response<MovieSearchResponse> response) {
@@ -67,10 +107,7 @@ public class MainActivity extends AppCompatActivity {
                         int movie_id = movie.getMovie_id();
                         Double vote_average = movie.getVote_average();
                         String overview = movie.getOverview();
-                        //Log.v("Tag", "Overview" + overview );
-                        int runtime = movie.getRuntime();
-
-                        arrMovie.add(new MovieModel(title,poster,release_date,movie_id,vote_average,overview,runtime));
+                        arrMovie.add(new MovieModel(title,poster,release_date,movie_id,vote_average,overview));
                     }
                     mAdapter = new Adapter(arrMovie, MainActivity.this);
                     rvMovie.setAdapter(mAdapter);
@@ -85,5 +122,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 }
