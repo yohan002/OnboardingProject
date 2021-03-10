@@ -103,16 +103,12 @@ public class MainActivity extends AppCompatActivity {
                     List<MovieModel> movies = new ArrayList<>(response.body().getMovies());
 
                     for (MovieModel movie : movies) {
-//                        Log.v("Tag", "The release date" + movie.getRelease_date());
-//                        Log.v("Tag", "Title" + movie.getTitle());
-//                        Log.v("Tag", "Overview" + movie.getOverview());
                         String title = movie.getTitle();
                         String poster = Credentials.IMAGE_URL+movie.getPoster_path();
                         String release_date = movie.getRelease_date();
                         int movie_id = movie.getId();
                         Double vote_average = movie.getVote_average();
                         String overview = movie.getOverview();
-                        Log.v("Tag", "ID" + movie.getId());
                         arrMovie.add(new MovieModel(title,poster,release_date,movie_id,vote_average,overview));
                     }
                     mAdapter = new Adapter(arrMovie, MainActivity.this);

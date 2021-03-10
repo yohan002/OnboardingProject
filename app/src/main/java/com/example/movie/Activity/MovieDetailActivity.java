@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +15,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.movie.Database.Database;
+import com.example.movie.Model.MovieModel;
 import com.example.movie.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -22,7 +27,9 @@ public class MovieDetailActivity extends AppCompatActivity {
     TextView tv_title,tv_release_date,tv_rating,tv_description;
     Button btn_favorite;
 
-    int  flag = 0;
+    ArrayList<MovieModel> arrMovie;
+
+    int  flagMovieDetail = 0;
     Database db;
 
     @Override
@@ -39,15 +46,22 @@ public class MovieDetailActivity extends AppCompatActivity {
         tv_description = findViewById(R.id.tv_description);
         btn_favorite = findViewById(R.id.btn_favorite);
 
-        if (flag == 0){
-            getMovie();
-        }
+        getMovie();
 
         btn_favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                flag = 1;
-                getMovie();
+                String temp = String.valueOf(btn_favorite.getText());
+                if (temp.equals("MARK AS FAVORITE")){
+                    flagMovieDetail = 1;
+                    getMovie();
+                }else if(temp.equals("UNMARK AS FAVORITE")){
+                    flagMovieDetail = 2;
+                    getMovie();
+                }
+                Intent i = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(i);
+                finish();
             }
         });
     }
@@ -68,12 +82,18 @@ public class MovieDetailActivity extends AppCompatActivity {
         tv_rating.setText(rating + "/10");
         tv_description.setText(overview);
 
-        if(flag == 1){
-            String Id = String.valueOf(movieId);
-            Log.v("Tag", "Id" + movieId );
-            String Rating = String.valueOf(rating);
+        ContentValues contentValues = new ContentValues();
 
-            ContentValues contentValues = new ContentValues();
+        String Id = String.valueOf(movieId);
+        String Rating = String.valueOf(rating);
+
+        if(db.checkData(Id).equals(true)){
+            btn_favorite.setText("UNMARK AS FAVORITE");
+        }else{
+            btn_favorite.setText("MARK AS FAVORITE");
+        }
+
+        if(flagMovieDetail == 1){
             contentValues.put("movie_id",Id);
             contentValues.put("movie_image",posterPath);
             contentValues.put("movie_title",title);
@@ -82,12 +102,15 @@ public class MovieDetailActivity extends AppCompatActivity {
             contentValues.put("movie_overview",overview);
 
             if(db.insertData(Id,posterPath,title,release_date,Rating,overview)){
-                Toast.makeText(MovieDetailActivity.this,"Insert success",Toast.LENGTH_SHORT);
+                Toast.makeText(MovieDetailActivity.this,"Insert success",Toast.LENGTH_SHORT).show();
             }
-            Intent i = new Intent(getApplicationContext(),MainActivity.class);
-            startActivity(i);
-            finish();
+        }else if(flagMovieDetail == 2){
+            if(db.deleteData(Id) > 0){
+                Toast.makeText(MovieDetailActivity.this, "Delete success", Toast.LENGTH_SHORT).show();
+            }
         }
+
+
     }
 
 }

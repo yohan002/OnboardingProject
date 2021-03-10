@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
-
 public class Database extends SQLiteOpenHelper {
 
     Context context;
@@ -74,9 +72,26 @@ public class Database extends SQLiteOpenHelper {
         return result;
     }
 
+    public Boolean checkData(String id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM movie WHERE movie_id = ?",new String[]{id});
+        if(cursor.getCount() > 0){
+//            long result = db.delete("movie","movie_id = ?",new String[]{id});
+//            if(result == -1){
+//                return false;
+//            }else{
+//                return true;
+//            }
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public Cursor getAllData(){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor result = db.rawQuery("SELECT * FROM movie",null);
+
         return result;
     }
 }
