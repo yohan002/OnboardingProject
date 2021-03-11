@@ -18,6 +18,7 @@ public class Database extends SQLiteOpenHelper {
     public static final String MOVIE_RELESASEDATE = "movie_releasedate";
     public static final String MOVIE_RATING = "movie_rating";
     public static final String MOVIE_OVERVIEW = "movie_overview";
+    public static final String MOVIE_RUNTIME = "movie_runtime";
 
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -32,7 +33,8 @@ public class Database extends SQLiteOpenHelper {
                 MOVIE_TITLE+" VARCHAR,"+
                 MOVIE_RELESASEDATE+" VARCHAR,"+
                 MOVIE_RATING+" VARCHAR,"+
-                MOVIE_OVERVIEW+" VARCHAR"+
+                MOVIE_OVERVIEW+" VARCHAR,"+
+                MOVIE_RUNTIME+" VARCHAR"+
                 ");";
         db.execSQL(query);
     }
@@ -45,7 +47,8 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public boolean insertData(String id, String image,String title,
-                              String releasedate,String rating,String overview){
+                              String releasedate,String rating,
+                              String overview,String runtime){
         Integer count = 1;
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -55,6 +58,7 @@ public class Database extends SQLiteOpenHelper {
         values.put(MOVIE_RELESASEDATE,releasedate);
         values.put(MOVIE_RATING,rating);
         values.put(MOVIE_OVERVIEW,overview);
+        values.put(MOVIE_RUNTIME,runtime);
 
         long result = db.insert(TABLE_NAME,null,values);
 
@@ -76,12 +80,6 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM movie WHERE movie_id = ?",new String[]{id});
         if(cursor.getCount() > 0){
-//            long result = db.delete("movie","movie_id = ?",new String[]{id});
-//            if(result == -1){
-//                return false;
-//            }else{
-//                return true;
-//            }
             return true;
         }else{
             return false;

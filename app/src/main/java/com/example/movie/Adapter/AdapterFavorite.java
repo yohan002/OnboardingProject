@@ -66,6 +66,7 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.MyView
         final String releasedate = cursor.getString((cursor.getColumnIndex(db.MOVIE_RELESASEDATE)));
         final Double rating = Double.parseDouble(cursor.getString((cursor.getColumnIndex(db.MOVIE_RATING))));
         final String overview = cursor.getString((cursor.getColumnIndex(db.MOVIE_OVERVIEW)));
+        final int runtime = Integer.parseInt(cursor.getString((cursor.getColumnIndex(db.MOVIE_RUNTIME))));
 
         Glide.with(mCtx).load(image).centerInside().into(holder.iv_movie);
 
@@ -75,7 +76,7 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.MyView
                 arrMovie = new ArrayList<>();
                 arrMovie.clear();
 
-                MovieModel movieModel = new MovieModel(title,image,releasedate,id,rating,overview);
+                MovieModel movieModel = new MovieModel(title,image,releasedate,id,rating,overview,runtime);
                 arrMovie.add(movieModel);
 
                 Intent detailIntent = new Intent(mCtx,MovieDetailActivity.class);
@@ -85,6 +86,7 @@ public class AdapterFavorite extends RecyclerView.Adapter<AdapterFavorite.MyView
                 detailIntent.putExtra("voteaverage_movieDetail",arrMovie.get(0).getVote_average());
                 detailIntent.putExtra("overview_movieDetail",arrMovie.get(0).getOverview());
                 detailIntent.putExtra("movieId_movieDetail",arrMovie.get(0).getId());
+                detailIntent.putExtra("runtime_movieDetail",arrMovie.get(0).getRuntime());
                 mCtx.startActivity(detailIntent);
             }
         });

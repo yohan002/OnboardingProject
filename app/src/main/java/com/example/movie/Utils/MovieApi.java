@@ -1,10 +1,12 @@
 package com.example.movie.Utils;
 
 import com.example.movie.Model.MovieModel;
+import com.example.movie.Response.MovieResponse;
 import com.example.movie.Response.MovieSearchResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface MovieApi {
@@ -22,10 +24,10 @@ public interface MovieApi {
     );
 
     //Detail movies
-    @GET("/3/movie/{movie_id}?")
-    Call<MovieModel> getMovie(
-            @Query("movie_id") int movie_id,
-            @Query("api_key") String api_key
+    @GET("/3/movie/{movie_id}")
+    Call<MovieResponse> detailMovie(
+            @Path("movie_id") int movie_id,
+            @Query("api_key") String key
     );
 
 }

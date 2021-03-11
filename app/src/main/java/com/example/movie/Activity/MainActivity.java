@@ -109,7 +109,8 @@ public class MainActivity extends AppCompatActivity {
                         int movie_id = movie.getId();
                         Double vote_average = movie.getVote_average();
                         String overview = movie.getOverview();
-                        arrMovie.add(new MovieModel(title,poster,release_date,movie_id,vote_average,overview));
+                        int runtime = 0;
+                        arrMovie.add(new MovieModel(title,poster,release_date,movie_id,vote_average,overview,runtime));
                     }
                     mAdapter = new Adapter(arrMovie, MainActivity.this);
                     rvMovie.setAdapter(mAdapter);

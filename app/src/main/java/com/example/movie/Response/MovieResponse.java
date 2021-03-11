@@ -1,23 +1,24 @@
 package com.example.movie.Response;
 
-import com.example.movie.Model.MovieModel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class MovieResponse {
 
-    @SerializedName("results")
+    @SerializedName("runtime")
     @Expose
-    private MovieModel movie;
+    private Integer runtime;
 
-    public MovieModel getMovie(){
-        return movie;
+    public Integer getRuntime(){
+        return runtime;
     }
 
     @Override
-    public String toString() {
-        return "MovieResponse{" +
-                "movie=" + movie +
+    public String toString(){
+        return "MovieResponse{"+
+                "runtime="+runtime+
                 '}';
     }
 }

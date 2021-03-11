@@ -2,6 +2,7 @@ package com.example.movie.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +11,23 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import com.bumptech.glide.Glide;
+import com.example.movie.Activity.MainActivity;
 import com.example.movie.Activity.MovieDetailActivity;
 import com.example.movie.Model.MovieModel;
 import com.example.movie.R;
+import com.example.movie.Request.Servicey;
+import com.example.movie.Response.MovieResponse;
+import com.example.movie.Response.MovieSearchResponse;
+import com.example.movie.Utils.Credentials;
+import com.example.movie.Utils.MovieApi;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
@@ -55,11 +66,14 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
                 detailIntent.putExtra("voteaverage_movieDetail",movie.getVote_average());
                 detailIntent.putExtra("overview_movieDetail",movie.getOverview());
                 detailIntent.putExtra("movieId_movieDetail",movie.getId());
-                //detailIntent.putExtra("runtime_movieDetail",movie.getRuntime());
+                detailIntent.putExtra("runtime_movieDetail",movie.getRuntime());
+                Log.v("Tag", "RUNTIME"+movie.getRuntime());
                 mCtx.startActivity(detailIntent);
             }
         });
     }
+
+
 
     @Override
     public int getItemCount() {
